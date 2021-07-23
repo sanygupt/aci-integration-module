@@ -1031,6 +1031,18 @@ class SecurityGroupRule(model_base.Base, model_base.HasAimId,
         return res_attr
 
 
+class SystemSecurityGroup(model_base.Base, model_base.HasAimId,
+                          model_base.HasName, model_base.HasDisplayName,
+                          model_base.HasTenantName, model_base.AttributeMixin,
+                          model_base.IsMonitored):
+    """DB model for SystemSecurityGroup."""
+
+    __tablename__ = 'aim_system_security_groups'
+    __table_args__ = (model_base.uniq_column(__tablename__, 'tenant_name',
+                                             'name') +
+                      model_base.to_tuple(model_base.Base.__table_args__))
+
+
 class Pod(model_base.Base, model_base.HasAimId, model_base.AttributeMixin,
           model_base.IsMonitored, model_base.HasName):
     """DB model for VMM Domain."""

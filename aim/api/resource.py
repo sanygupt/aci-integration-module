@@ -1167,6 +1167,25 @@ class SecurityGroupRule(AciResourceBase):
              'remote_group_id': '',
              'monitored': False}, **kwargs)
 
+class SystemSecurityGroup(AciResourceBase):
+
+    """Resource representing a System Security Group in ACI.
+
+    Identity attributes: name of ACI tenant and name of security group
+    """
+
+    identity_attributes = t.identity(
+        ('tenant_name', t.name),
+        ('name', t.name))
+    other_attributes = t.other(
+        ('display_name', t.name),
+        ('monitored', t.bool))
+
+    _aci_mo_name = 'hostprotPol'
+    _tree_parent = SecurityGroup
+
+    def __init__(self, **kwargs):
+        super(SystemSecurityGroup, self).__init__({'monitored': False}, **kwargs)
 
 class Configuration(ResourceBase):
 

@@ -593,6 +593,19 @@ def contract_converter(object_dict, otype, helper,
     return [result] if result else []
 
 
+def host_prot_pol_converter(object_dict, otype, helper,
+                            source_identity_attributes,
+                            destination_identity_attributes, to_aim=True):
+    result = []
+    if to_aim:
+        res_dict = {}
+        try:
+            id = default_identity_converter(object_dict, otype, helper,
+                                            to_aim=True)
+        except apic_client.DNManager.InvalidNameFormat:
+            return []
+
+ 
 # Resource map maps APIC objects into AIM ones. the key of this map is the
 # object APIC type, while the values contain the followings:
 # - Resource: AIM resource when direct mapping is applicable
@@ -964,6 +977,7 @@ resource_map = {
     }],
     'hostprotPol': [{
         'resource': resource.SecurityGroup,
+        'converter': host_prot_pol_converter,
     }],
     'hostprotSubj': [{
         'resource': resource.SecurityGroupSubject,
